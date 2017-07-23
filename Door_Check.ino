@@ -1,3 +1,4 @@
+//เหลือOpenDoor() CloseDoor()ไว้สำหรับเปิดปิดประตูแบบManual และAuto
 #define TRIGGER           3
 #define ECHO_DOOR_FRONT   5
 #define ECHO_DOOR_IN      6
@@ -56,7 +57,6 @@ void CloseDoor()
 }
 void setup() 
 {
-  // put your setup code here, to run once:
   Serial.begin(9600);
   pinMode(TRIGGER, OUTPUT);
   pinMode(ECHO_DOOR_FRONT,INPUT);
@@ -77,7 +77,6 @@ inline void sendTrigger()
 unsigned long mLogTime;
 void loop() 
 {
-  // put your main code here, to run repeatedly:
   sendTrigger();
   distFRONT = pulseIn(ECHO_DOOR_FRONT, HIGH) / 74 / 2;
   delay(100);
