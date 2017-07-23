@@ -17,7 +17,11 @@ void CheckPeople()
     IS_PEOPLE_IN = true;
     return 1;
   }
-  else IS_PEOPLE_IN = false;
+  else 
+  {
+    IS_PEOPLE_IN = false;
+    return 0;
+  }
 }
 void CheckFRONT()
 {
