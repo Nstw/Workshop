@@ -10,18 +10,27 @@ bool IS_PEOPLE_IN = false;
 bool IS_DOOR_OPEN = false;
 bool StandFRONT = false;
 bool StandIN = false;
+void CheckPeople()
+{
+  if(people>=1)
+  {
+    IS_PEOPLE_IN = true;
+    return 1;
+  }
+  else IS_PEOPLE_IN = false;
+}
 void CheckFRONT()
 {
   if(distIN<=5)
   {
     StandFRONT = true;
     //OpenDoor();
-    Serial.print("Door: Open")
+    Serial.print("Door: Open");
     if(distIN<=5 && StandFRONT)
     {
       delay(150);
       //CloseDoor();
-      Serial.print("Door: Close")
+      Serial.print("Door: Close");
       StandFRONT = false;
       delay(200);
       people+=1;
@@ -34,12 +43,12 @@ void CheckIN()
   {
     StandIN = true;
     //OpenDoor();
-    Serial.print("Door: Open")
+    Serial.print("Door: Open");
     if(distFRONT<=5 && StandIN)
     {
       delay(150);
       //CloseDoor();
-      Serial.print("Door: Close")
+      Serial.print("Door: Close");
       StandIN = false;
       delay(200);
       people-=1;
@@ -55,8 +64,10 @@ void CloseDoor()
 {
   
 }
+
 void setup() 
 {
+  // put your setup code here, to run once:
   Serial.begin(9600);
   pinMode(TRIGGER, OUTPUT);
   pinMode(ECHO_DOOR_FRONT,INPUT);
