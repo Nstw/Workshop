@@ -26,20 +26,23 @@ void CheckPeople()
 }
 void CheckFRONT()
 {
-  if(distIN<=5)
+  if(distFRONT<=5)
   {
     StandFRONT = true;
     OpenDoor();
-    Serial.print("Door: Open");
+    IS_DOOR_OPEN = true;
+    Serial.print("Door: Open\n");
     if(distIN<=5 && StandFRONT)
     {
       delay(150);
       CloseDoor();
-      Serial.print("Door: Close");
+      IS_DOOR_OPEN = false;
+      Serial.print("Door: Close\n");
       StandFRONT = false;
       delay(200);
       people+=1;
     }
+    StandFRONT = false;
   }
 }
 void CheckIN()
@@ -48,26 +51,41 @@ void CheckIN()
   {
     StandIN = true;
     OpenDoor();
-    Serial.print("Door: Open");
+    IS_DOOR_OPEN = true;
+    Serial.print("Door: Open\n");
     if(distFRONT<=5 && StandIN)
     {
       delay(150);
       CloseDoor();
-      Serial.print("Door: Close");
+      IS_DOOR_OPEN = false;
+      Serial.print("Door: Close\n");
       StandIN = false;
       delay(200);
       people-=1;
     }
+    StandIN = false;
   }
 }
 
 void OpenDoor()
 {
-  SERVO.write(0);  
+  if(IS_DOOR_OPEN)
+  {
+    
+  }
+  else
+  {
+    SERVO.write(0);
+    IS_DOOR_OPEN = true;
+  }
 }
 void CloseDoor()
 {
-  SERVO.write(90);
+    if(IS_DOOR_OPEN)
+  {
+    SERVO.write(90);
+    IS_DOOR_OPEN = false;
+  }
 }
 
 void setup() 
@@ -80,7 +98,7 @@ void setup()
   IS_PEOPLE_IN = false;
   StandFRONT = false;
   StandIN = false;
-  SERVO.attach(7);
+  SERVO.attach(9);
 }
 inline void sendTrigger() 
 {
@@ -103,8 +121,10 @@ void loop()
   curTime = millis();
   if (curTime - mLogTime > 1000) 
   {
+    CheckFRONT();
     Serial.print("front: ");
     Serial.println(distFRONT);
+    CheckIN();
     Serial.print("in: ");
     Serial.println(distIN);
     mLogTime = curTime;
